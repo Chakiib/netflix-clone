@@ -34,7 +34,7 @@ export const Button = styled.button`
     cursor: pointer;
 
     &:hover {
-        background: #f40612;
+        background: var(--hover-red);
     }
 
     @media (max-width: 1000px) {
