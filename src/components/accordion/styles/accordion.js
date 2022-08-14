@@ -56,10 +56,6 @@ export const Header = styled.div`
             width: 16px;
         }
     }
-
-    @media (max-width: 600px) {
-        width: 16px;
-    }
 `;
 
 export const Body = styled.div`
