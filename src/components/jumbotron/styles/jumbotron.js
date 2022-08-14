@@ -2,7 +2,7 @@ import styled from 'styled-components/macro';
 
 export const Item = styled.div`
     display: flex;
-    border-bottom: 9px solid #222;
+    border-bottom: 6px solid #222;
     padding: 50px 5%;
     color: white;
     overflow: hidden;
