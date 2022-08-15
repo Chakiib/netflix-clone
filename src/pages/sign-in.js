@@ -1,15 +1,14 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { useContext, useState } from 'react';
+import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form } from '../components';
 import * as ROUTES from '../constants/routes';
 import { FooterContainer } from '../containers/footer';
 import { HeaderContainer } from '../containers/header';
-import { FirebaseContext } from '../context/firebase';
 
 const SignIn = () => {
     const navigate = useNavigate();
-    const { auth } = useContext(FirebaseContext);
+    const auth = getAuth();
 
     const [emailAdress, setEmailAddress] = useState('');
     const [password, setPassword] = useState('');
@@ -40,7 +39,8 @@ const SignIn = () => {
                     <Form.Base onSubmit={handleSignIn} method="POST">
                         <Form.Input
                             onChange={({ target }) => setEmailAddress(target.value)}
-                            placeholder="Email or phone number"
+                            placeholder="Email"
+                            type="email"
                             required
                             value={emailAdress}
                         />
@@ -58,7 +58,7 @@ const SignIn = () => {
                     </Form.Base>
 
                     <Form.Text>
-                        New to Netflix? <Form.Link to={`/${ROUTES.SIGN_UP}`}>Sign up now</Form.Link>
+                        New to Netflix? <Form.Link to={ROUTES.SIGN_UP}>Sign up now</Form.Link>
                     </Form.Text>
                     <Form.TextSmall>
                         This page is protected by Google reCAPTCHA to ensure you're not a bot. Learn more.
