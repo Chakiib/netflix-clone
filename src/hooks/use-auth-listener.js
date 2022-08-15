@@ -1,27 +1,30 @@
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { useEffect, useState } from 'react';
+import { getAuth } from 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 const useAuthListener = () => {
+    let currentUser = null;
+
     const auth = getAuth();
-    const [user, setUser] = useState(null);
+    const [user, loading, error] = useAuthState(auth);
 
-    useEffect(() => {
-        const listener = onAuthStateChanged(auth, (authUser) => {
-            if (authUser) {
-                const { displayName, email, photoURL } = authUser;
+    if (error) {
+        console.error(error);
+        currentUser = null;
+    }
 
-                localStorage.setItem('authUser', JSON.stringify({ displayName, email, photoURL }));
-                setUser({ displayName, email, photoURL });
-            } else {
-                localStorage.removeItem('authUser');
-                setUser(null);
-            }
-        });
+    if (!loading) {
+        if (user) {
+            const { displayName, email, photoURL } = user;
 
-        return () => listener;
-    }, []);
+            localStorage.setItem('authUser', JSON.stringify({ displayName, email, photoURL }));
+            currentUser = { displayName, email, photoURL };
+        } else {
+            localStorage.removeItem('authUser');
+            currentUser = null;
+        }
+    }
 
-    return { user };
+    return { user: currentUser, loading, error };
 };
 
 export default useAuthListener;

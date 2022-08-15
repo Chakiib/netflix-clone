@@ -1,13 +1,16 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Loading } from './components';
 import * as ROUTES from './constants/routes';
 import { ProtectedRoute, PublicRoute } from './helpers/routes';
 import { useAuthListener } from './hooks';
 import { Browse, Home, SignIn, SingUp } from './pages';
 
 const App = () => {
-    const { user } = useAuthListener();
+    const { user, loading } = useAuthListener();
 
-    return (
+    return loading ? (
+        <Loading />
+    ) : (
         <BrowserRouter>
             <Routes>
                 <Route
