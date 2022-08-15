@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Form } from '../components';
 import * as ROUTES from '../constants/routes';
 import { FooterContainer } from '../containers/footer';
 import { HeaderContainer } from '../containers/header';
+import { FirebaseContext } from '../context/firebase';
 
 const SignIn = () => {
+    const navigate = useNavigate();
+    const { auth } = useContext(FirebaseContext);
+
     const [emailAdress, setEmailAddress] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState();
@@ -14,10 +20,14 @@ const SignIn = () => {
     const handleSignIn = (e) => {
         e.preventDefault();
 
-        try {
-        } catch (e) {
-            setError(e);
-        }
+        signInWithEmailAndPassword(auth, emailAdress, password)
+            .then(() => {
+                navigate(ROUTES.BROWSE, { replace: true });
+            })
+            .catch((error) => {
+                setPassword('');
+                setError(error.message);
+            });
     };
 
     return (
