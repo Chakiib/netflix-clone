@@ -4,6 +4,7 @@ export const GlobalStyles = createGlobalStyle`
     :root {
         --main-red: #e50914;
         --hover-red: #f40612;
+        --error-color: #e87c03;
     }
 
     html, body {
